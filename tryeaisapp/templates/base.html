@@ -1,0 +1,64 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Tryeais, Budgeter, Budget tracker, Budget tracking, Budget Track, Track your expenses, Track your income, Track your budget, AI powered budget tracker">
+    <meta name="description" content="Tracking your daily expenses and income with the help of machine learning.">
+    <title>
+    {% block title %}
+        
+    {% endblock title %}
+         - Tryeais</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" type="text/css">
+    <script src="https://kit.fontawesome.com/83d4dedb1b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- side bar and header -->
+    <div class="body-container">
+        <!-- Side bar -->
+        <div class="side-bar">
+            <div class="side-bar-content">
+                <div class="title">tryeais</div>
+                <div class="profile-details">
+                    <div class="profile-photo">
+                        <img src="{% static 'assets/profile-photo.jpeg' %}" alt="Profile Photo">
+                    </div>
+                    <div class="name">{{ request.user.first_name }} {{ request.user.last_name}} </div>
+                    <div class="email">{{ request.user.email }}</div>
+                </div>
+                <div class="line"></div>
+                <div class="options">
+                    <a href="{% url 'dashboard' %}" class="option {% if request.path == '/dashboard' %} active-option {% endif %}" id="dashboard"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="{% url 'accounts' %}" class="option {% if request.path == '/accounts' %} active-option {% endif %}" id="accounts"><i class="fa fa-rupee-sign"></i> Accounts</a>
+                    <a href="{% url 'settings' %}" class="option {% if request.path == '/settings' %} active-option {% endif %}" id="settings"><i class="fa fa-gear"></i> Settings</a>
+                </div>
+            </div>
+        </div>
+        <!-- Side bar end -->
+        <div class="main-section">
+            <div class="top-nav">
+                <a style="text-decoration: none;" href="{% url 'logout' %}" class="sign-out-button"><i ></i> Sign Out</a>
+            </div>
+
+
+{% block content %}
+    
+{% endblock content %}
+
+
+<!-- footer -->
+<footer>
+    &copy; B.M.B Corp. All rights reserved.
+</footer>
+
+<!-- output current date -->
+<script>
+    document.querySelector('.current-date').textContent = new Date().toDateString();
+</script>
+    
+</body>
+</html>

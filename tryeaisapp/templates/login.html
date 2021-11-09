@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Tryeais</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <script src="https://kit.fontawesome.com/83d4dedb1b.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.0.slim.min.js" integrity="sha384-7WBfQYubrFpye+dGHEeA3fHaTy/wpTFhxdjxqvK04e4orV3z+X4XC4qOX3qnkVC6" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="container">
+        <form method="post" action="{% url 'login' %}" id="login-form">
+            {% csrf_token %}
+            <div id="login-title">LOG IN to Tryeais</div>
+            <input id="email" class="text-box" name="username" value= '{{ username }}' type="username" placeholder="Username" required>
+            <input id="password" class= "text-box" name="password" value= '{{ password }}' type="password" placeholder="Password" required>
+            <div id="login-opts">
+                <label for="remember-me"><input name="remember-me" id="remember-me" type="checkbox"> Remember me</label>
+                <div id="change-pass">Change password?</div>
+            </div>
+            <div id="login-btn">LOG IN
+            <button type="submit" id="btn-anim">LOG IN</button>
+            </div>
+            
+            {% if messages %}
+                
+                {% for message in messages %}
+                    <div id="login-toast">{{ message }}</div>
+                {% endfor %}
+                    
+            {% endif %}
+                
+        </form>
+    </div>   
+    <script src="https://unpkg.com/jquery-hash@1.0.0/dist/jq-hash.min.js"></script>
+    <script src="./js/login.js"></script>
+</body>
+</html>

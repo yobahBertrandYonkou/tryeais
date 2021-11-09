@@ -1,0 +1,167 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Account
+{% endblock title %}
+    
+
+{% block content %}
+<body>
+        <div class="content-container">
+            <div class="title-bar">
+                <div class="page-name">Accounts</div>
+                <div class="current-date"></div>
+            </div>
+            <div class="analysis-container-accounts">
+                <div class="card">
+                    <div class="card-icon"><i class="fa fa-rupee-sign"></i></div>
+                    <div class="card-labels">
+                        <div class="card-title">{{ total_amount|floatformat:2 }}</div>
+                        <div class="card-subtitle">Total amount recorded</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa fa-money-bill-wave"></i></div>
+                    <div class="card-labels">
+                        <div class="card-title">{{ total_income|floatformat:2 }}</div>
+                        <div class="card-subtitle">Total Income</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa fa-money-bill-alt"></i></div>
+                    <div class="card-labels">
+                        <div class="card-title">{{ total_expense|floatformat:2 }}</div>
+                        <div class="card-subtitle">Total Expense</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa fa-box-open"></i></div>
+                    <div class="card-labels">
+                        <div class="card-title">{{ total_loan|floatformat:2 }}</div>
+                        <div class="card-subtitle">Total Loan</div>
+                    </div>
+                </div>
+            </div>
+            <div class="control-bar">
+                <div class="search">
+                    <form id="search-category-form" action="{% url 'accounts' %}" method="post">
+                        {% csrf_token %}
+                        <select style="border-radius: 10px;" name="category" id="search-category">
+                            <option value="all" {% if filter == 'all' %} selected {% endif %} >All Categories</option>
+                            <option value="income" {% if filter == 'income' %} selected {% endif %} >Incomes</option>
+                            <option value="expense" {% if filter == 'expense' %} selected {% endif %} >Expenses</option>
+                            <option value="loan" {% if filter == 'loan' %} selected {% endif %} >Loans</option>
+                        </select>
+                    </form>
+                    <!-- <input id="search-box" type="search" placeholder="Search records"> -->
+                </div>
+                <div class="new-record">
+                    <button id="add-new"><i class="fa fa-plus"></i> Add record</button>
+                    <input title="Upload an excel file containing the required fields" id="file-upload" type="file">
+                </div>
+            </div>
+            <div style="border-radius: 10px;" class="records-container">
+                <table id="records-table">
+                    <thead>
+                        <th id="numbering">No</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </thead>
+                    <tbody>
+                        {% if accounts|length == 0 %}
+                            <tr><td colspan="6"><center>No records</center></td></tr>
+                        {% else %}
+                            
+                            {% for account in accounts %}
+                                <tr>
+                                    <td> {{ forloop.counter }} </td>
+                                    <td>{{ account.name }}</td>
+                                    <td>{{ account.type }}</td>
+                                    <td>{{ account.category }}</td>
+                                    <td><i class="fa fa-rupee"></i> {{ account.amount|floatformat:2 }}</td>
+                                    <td class="record-date">{{ account.date }}
+                                        <div id="record-actions">
+                                            <i data-record-id="{{ account.id }}" title="Delete record" style="color: #ff645b;" class="fa fa-trash delete-record-now"></i>
+                                            <!-- <i title="Edit record" style="color: var(--theme-color);" class="fa fa-edit"></i> -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                                
+                        {% endif %}
+                            
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="add-record-container">
+        <form class="add-new-form" action="{% url 'save_records' %}" method="post">
+            {% csrf_token %}
+            <div class="add-new-title">New Record</div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="record-name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <input type="text" name="type" id="type" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input min="0" type="number" name="amount" id="amount" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" name="date" id="date" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select name="category" id="category" class="form-control">
+                    <option value="income" selected>Income</option>
+                    <option value="expense">Expense</option>
+                    <option value="loan">Loan</option>
+                </select>
+            </div>
+            <div class="save-cancel-btns">
+                <button type="submit" class="save-record">Save</button>
+                <button type="button" class="cancel-form">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        var addRecord = document.getElementById("add-new");
+        var addNewForm = document.querySelector(".add-record-container");
+        var cancelForm = document.querySelector(".cancel-form");
+        cancelForm.onclick = () => addNewForm.style.display = "none";
+        addRecord.onclick = () => addNewForm.style.display = "flex";
+
+        document.querySelectorAll('.delete-record-now').forEach( element => {
+            element.onclick = async (event) => {
+                console.log(event.target.getAttribute("data-record-id"))
+                await fetch('/delete_record/' + event.target.getAttribute("data-record-id") )
+                .then( res =>  res.json())
+                .then( res => {
+                    if (res.status === 200){
+                        window.location.reload();
+                    }
+                })
+                .catch(error => console.log(error));
+            }
+        });
+
+        document.getElementById('search-category').onchange = () => {
+            document.getElementById('search-category-form').submit();
+        }
+    </script>
+{% endblock content %}
+    

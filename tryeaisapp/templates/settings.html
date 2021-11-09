@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Settings
+{% endblock title %}
+    
+{% block content %}
+<body>
+
+        <div class="content-container">
+            <form action="/settings" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="title-bar">
+                <div class="page-name">Settings</div>
+                <div class="current-date">Monday, 20 July 2021</div>
+            </div>
+            <div class="setting-sections">
+                <div class="section-header">Budget Details</div>
+                <div class="setting-options">
+                    <div class="option-tb">
+                        <label for="total-budget">Budget</label>
+                        <input value="{{ profile.budget|floatformat:2 }}" type="number" name="budget" id="total-budget">
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="setting-sections">
+                <div class="section-header">Personal Details</div>
+                <div class="setting-options">
+                    <div class="option-tb">
+                        <label for="name">Name</label>
+                        <input type="text" value="{{ request.user.first_name }} {{ request.user.last_name }}" id="name" disabled>
+                    </div>
+                    <div class="option-tb">
+                        <label for="email">Email</label>
+                        <input type="email" value="{{ request.user.email }}" id="email" disabled>
+                    </div>
+                    
+                    {% comment %}
+                        <div class="option-tb">
+                            <label for="photo">Photo</label>
+                            <input value="{{ profile.photo }}" type="file" accept="image/*" name="photo" id="photo">
+                            <img src="{{ profile.photo.url }}" alt="">
+                        </div>
+                    {% endcomment %}
+                        
+                </div>
+            </div>
+            <br><br>
+            <div class="setting-sections">
+                <div class="section-header">Notifications</div>
+                <div class="setting-options notification-options">
+                    <div class="reminders">
+                        <div class="daily-reminders check-option">
+                            <label for="daily-reminders check-option">
+                                <input {% if profile.daily_reminder %}checked{% endif %} value="{{ profile.daily_reminder }}" type="checkbox" name="d-reminders" id="daily-reminders"> Daily reminders
+                            </label>
+                        </div>
+                        <div class="weekly-reminders check-option">
+                            <label for="weekly-reminders">
+                                <input {% if profile.weekly_reminder %}checked{% endif %} value="{{ profile.weekly_reminder }}" type="checkbox" name="w-reminders" id="weekly-reminders"> Weekly reminders
+                            </label>
+                        </div>
+                        <div class="monthly-reminders check-option">
+                            <label for="monthly-reminders">
+                                <input {% if profile.monthly_reminder %}checked{% endif %} value="{{ profile.monthly_reminder }}" type="checkbox" name="m-reminders" id="monthly-reminders"> Monthly reminders
+                            </label>
+                        </div>
+                        <div class="yearly-reminders check-option">
+                            <label for="yearly-reminders">
+                                <input {% if profile.yearly_reminder %}checked{% endif %} value="{{ profile.yearly_reminder }}" type="checkbox" name="y-reminders" id="daily-reminders"> Yearly reminders
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="reports">
+                        <div class="daily-reports check-option">
+                            <label for="daily-reports">
+                                <input {% if profile.daily_report %}checked{% endif %} value="{{ profile.daily_report }}" type="checkbox" name="d-reports" id="daily-reports"> Daily reports
+                            </label>
+                        </div>
+                        <div class="weekly-reports check-option">
+                            <label for="weekly-reports">
+                                <input {% if profile.weekly_report %}checked{% endif %} value="{{ profile.weekly_report }}" type="checkbox" name="w-reports" id="weekly-reports"> Weekly reports
+                            </label>
+                        </div>
+                        <div class="monthly-reports check-option">
+                            <label for="monthly-reports">
+                                <input {% if profile.monthly_report %}checked{% endif %} value="{{ profile.monthly_report }}" type="checkbox" name="m-reports" id="monthly-reports"> Monthly reports
+                            </label>
+                        </div>
+                        <div class="yearly-reports check-option">
+                            <label for="yearly-reports">
+                                <input {% if profile.yearly_report %}checked{% endif %}  value="{{ profile.yearly_report }}" type="checkbox" name="y-reports" id="daily-reports"> Yearly reports
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="update-settings">
+                <button type="submit" class="update-me">Update</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    

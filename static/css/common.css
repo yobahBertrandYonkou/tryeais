@@ -1,0 +1,10 @@
+:root{
+    --theme-color: #1A645B;
+    --card-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.active-option{
+    cursor: pointer;
+    color: white !important;
+    background-color: var(--theme-color);
+}

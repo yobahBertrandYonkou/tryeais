@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Dashboard
+{% endblock title %}
+{% block content %}
+
+        <div class="content-container">
+            <div class="title-bar">
+                <div class="page-name">Dashboard</div>
+                <div class="current-date">Monday, 20 July 2021</div>
+            </div>
+            <div class="analysis-container">
+                <div class="left-container">
+                    <div class="budget-highlight">
+                        <div class="card">
+                            <div class="card-icon"><i class="fa fa-money-check-alt"></i></div>
+                            <div class="card-labels">
+                                <div class="card-title">1,000,000</div>
+                                <div class="card-subtitle">Total budget</div>
+                            </div>
+                        </div>
+                        <div class="gap"></div>
+                        <div class="card">
+                            <div class="card-icon"><i class="fa fa-money-bill-wave"></i></div>
+                            <div class="card-labels">
+                                <div class="card-title">5,000,000</div>
+                                <div class="card-subtitle">Used amount</div>
+                            </div>
+                        </div>
+                        <div class="gap"></div>
+
+                        <div class="card">
+                            <div class="card-icon"><i class="fa fa-money"></i></div>
+                            <div class="card-labels">
+                                <div class="card-title">5,000,000</div>
+                                <div class="card-subtitle">Amount left</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spending-graph-container">
+                        <div class="spending-graph-header">
+                            <div class="sgh-title">Daily Expenses vs Income</div>
+                            <div class="sgh-type">
+                                <select name="type" id="sgh-type">
+                                    <option value="">Daily</option>
+                                    <option value="">Weekly</option>
+                                    <option value="">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="spending-graph-chart"></div>
+                    </div>
+                    <div class="spending-graph-container">
+                        <div class="spending-graph-header">
+                            <div class="sgh-title">Daily Expenses vs Income</div>
+                            <div class="sgh-type">
+                                <select name="type" id="sgh-type">
+                                    <option value="">Daily</option>
+                                    <option value="">Weekly</option>
+                                    <option value="">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="spending-graph-chart"></div>
+                    </div>
+                    <div class="spending-graph-container">
+                        <div class="spending-graph-header">
+                            <div class="sgh-title">Daily Expenses vs Income</div>
+                            <div class="sgh-type">
+                                <select name="type" id="sgh-type">
+                                    <option value="">Daily</option>
+                                    <option value="">Weekly</option>
+                                    <option value="">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="spending-graph-chart"></div>
+                    </div>
+                </div>
+                
+                <div class="right-container">
+                    <div class="notifications">
+                        <div class="rc-title">Notifications</div>
+                        <div class="notifications-content">
+                            <center>No notifications</center>
+                        </div>
+                    </div>
+                    <div class="activities">
+                        <div class="rc-title">Activities</div>
+                        <div class="activities-content">
+                            <center>No activities</center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    
